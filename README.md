@@ -21,7 +21,7 @@ Bind the extracted config folder to the expected path inside the container:
 
 ```sh
 podman create -ti --name dst-server \
-  --mount=type=bind,src=./data/MyDediServer,dst=/root/.klei/DoNotStarveTogether/ \
+  --mount=type=bind,src=./data/MyDediServer,dst=/root/.klei/DoNotStarveTogether/MyDediServer \
   localhost/dst:latest
 ```
 

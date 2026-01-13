@@ -51,3 +51,7 @@ podman rm hytale-server
 podman create ... (same command as above)
 podman start hytale-server
 ```
+
+# Notes
+
+- Port fowarding is required to the server be acessible.

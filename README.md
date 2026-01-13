@@ -1,11 +1,5 @@
 # Don’t Starve Together Dedicated Server
 
-## Build
-
-```sh
-podman build --tag dst:latest --format docker .
-```
-
 ## Server configuration setup
 
 1. Go to: [https://accounts.klei.com/account/game/servers?game=DontStarveTogether](https://accounts.klei.com/account/game/servers?game=DontStarveTogether)
@@ -25,6 +19,12 @@ cp ./mods/modoverrides.lua ./data/Caves/
 ```
 
 > The build process automatically copies `./mods/dedicated_server_mods_setup.lua` into the image, so no manual placement is required.
+
+## Build Image
+
+```sh
+podman build --tag dst:latest --format docker .
+```
 
 ## Create container
 

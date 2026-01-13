@@ -54,4 +54,4 @@ podman start hytale-server
 
 # Notes
 
-- Port fowarding is required to the server be acessible.
+- Port forwarding is required for the server to be accessible.

@@ -6,8 +6,7 @@ DST="/srv/data"
 
 mkdir -p "$DST"
 
-if [ -z "$(ls -A "$DST" 2>/dev/null)" ]; then
-    cp -r "$SRC"/* "$DST"/
-fi
+mv -n "$SRC"/* "$DST"/
+mv -f "$SRC"/HytaleServer.jar "$DST"/
 
 exec "$@"

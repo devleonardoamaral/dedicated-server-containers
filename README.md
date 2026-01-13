@@ -13,7 +13,18 @@ podman build --tag dst:latest --format docker .
 3. Extract it.
 4. Place all extracted files into `./data/MyDediServer`.
 
-The container expects the standard Klei layout (clusters/worlds) inside `./data/MyDediServer`.
+The container expects the standard Klei layout (clusters/worlds) inside `./data`.
+
+## Adding mods
+
+To add mods to the server you need setup the files `./mods/dedicated_server_mods_setup.lua` and `./mods/modoverrides.lua`. After setup both files, copy `./mods/modoverrides.lua` to the following folders:
+
+```sh
+cp ./mods/modoverrides.lua ./data/Master
+cp ./mods/modoverrides.lua ./data/Caves
+```
+
+> The build process automatically copies `./mods/dedicated_server_mods_setup.lua` into the image, so no manual placement is required.
 
 ## Create container
 
@@ -21,11 +32,11 @@ Bind the extracted config folder to the expected path inside the container:
 
 ```sh
 podman create -ti --name dst-server \
-  --mount=type=bind,src=./data/MyDediServer,dst=/root/.klei/DoNotStarveTogether/MyDediServer \
+  -v ./data:/root/.klei/DoNotStarveTogether/MyDediServer \
   localhost/dst:latest
 ```
 
-`./data/MyDediServer` will contain saves, logs, and configs.
+> `./data` will contain saves, logs, and configs.
 
 ## Start / Stop
 
@@ -52,5 +63,4 @@ podman start dst-server
 
 ## Notes
 
-* Bind mounts are required to persist worlds.
-* Ensure `cluster.ini`, `cluster_token.txt`, and world directories are present.
+* Port fowarding isn‘t required to the server be visible publicly.

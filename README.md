@@ -11,7 +11,7 @@ podman build --tag hytale:latest --format docker .
 ```sh
 podman create -it --name hytale-server \
     -p 5520:5520/udp \
-    -v ./data:/srv/data \
+    -v ./data:/srv/data/ \
     hytale:latest
 ```
 

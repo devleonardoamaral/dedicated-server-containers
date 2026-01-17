@@ -11,14 +11,7 @@ The container expects the standard Klei layout (clusters/worlds) inside `./data`
 
 ## Adding mods
 
-To add mods to the server you need setup the files `./mods/dedicated_server_mods_setup.lua` and `./mods/modoverrides.lua`. After setup both files, copy `./mods/modoverrides.lua` to the following folders:
-
-```sh
-cp ./mods/modoverrides.lua ./data/Master/
-cp ./mods/modoverrides.lua ./data/Caves/
-```
-
-> The build process automatically copies `./mods/dedicated_server_mods_setup.lua` into the image, so no manual placement is required.
+To add mods to the server you need setup the files `./mods/dedicated_server_mods_setup.lua` and `./mods/modoverrides.lua`.
 
 ## Build Image
 
@@ -31,7 +24,8 @@ podman build --tag dst:latest --format docker .
 Bind the extracted config folder to the expected path inside the container:
 
 ```sh
-podman create -ti --name dst-server \
+podman create -ti \
+  --name dst-server \
   -v ./data:/root/.klei/DoNotStarveTogether/MyDediServer:z \
   localhost/dst:latest
 ```

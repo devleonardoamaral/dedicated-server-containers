@@ -7,13 +7,18 @@ RUN dpkg --add-architecture i386 \
     && rm -rf /var/lib/apt/lists/*
 
 # Installation
-RUN steamcmd +login anonymous +app_update 343050 validate +quit
+COPY ./scripts/bootstrap.sh /root/bootstrap.sh
+RUN chmod +x /root/bootstrap.sh
 COPY ./scripts/start_server.sh /root/start_server.sh
 RUN chmod +x /root/start_server.sh
 
-# Mods
-COPY ./mods/modoverrides.lua /root/.klei/DoNotStarveTogether/MyDediServer/Master/modoverrides.lua
-COPY ./mods/modoverrides.lua /root/.klei/DoNotStarveTogether/MyDediServer/Cave/modoverrides.lua
-COPY ["./mods/dedicated_server_mods_setup.lua", "/root/.steam/steam/steamapps/common/Don\\'t Starve Together Dedicated Server/mods/dedicated_server_mods_setup.lua"]
+# Default mod files
+RUN mkdir /root/mods
+COPY ./mods/modoverrides.lua /root/mods/
+COPY ./mods/modoverrides.lua /root/mods/
+COPY ./mods/dedicated_server_mods_setup.lua /root/mods/
 
-ENTRYPOINT ["/root/start_server.sh"]
+WORKDIR /root/
+
+ENTRYPOINT ["/root/bootstrap.sh"]
+CMD ["/root/start_server.sh"]

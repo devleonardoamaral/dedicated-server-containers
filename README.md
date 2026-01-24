@@ -1,7 +1,43 @@
-# SteamCMD Dedicated Servers Containers
+# Project Zomboid Dedicated Server
 
-This repository contains images to host dedicated game servers. You can access a specific image from the list below or by switching the repository branch.
+## Build Image
 
-- [Don‘t Starve Together](https://github.com/devleonardoamaral/steamcmd-containers/tree/dont-starve-together)
-- [Hytale](https://github.com/devleonardoamaral/dedicated-server-images/tree/hytale)
-- [Valheim](https://github.com/devleonardoamaral/steamcmd-containers/tree/valheim)
+```sh
+podman build --tag zomboid:latest --format docker .
+```
+
+## Create container
+
+```sh
+podman create -it --name zomboid-server \
+    -p 16261:16261/udp \
+    -p 16262:16262/udp \
+    -p 27015:27015/tcp \
+    -v ./data/:/root/Zomboid/:z \
+    zomboid:latest
+```
+
+## Start container
+
+```sh
+podman start zomboid-server
+```
+
+The administrator password is set by default to `admin`, and it is highly recommended to change in production .
+
+The RCON password is set randomly, see the `RCONPassword` option in file `./data/Server/servertest.ini` to obtain the RCON password.
+
+## Stop container
+
+Send a RCON command with `quit`.
+
+> Stopping the container with `stop` may cause unexpected behavior.
+
+## Logs
+
+```sh
+podman logs -f zomboid-server
+```
+
+## Notes
+- Port fowarding is required to the server be visible publicly.

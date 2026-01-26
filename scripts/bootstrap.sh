@@ -1,31 +1,15 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
+
+ls
 
 DATA_DIR="$HOME/Zomboid"
 INSTALL_DIR="$PWD"
 DEFAULTS_DIR="$HOME/defaults"
 
-
-install_server() {
-    attempts=1
-    max_attempts=3
-    while [ $attempts -le $max_attempts ]; do
-        echo "BOOTSTRAP: installing dedicated server. Attempt: $attempts / $max_attempts ..."
-        if steamcmd +login anonymous +force_install_dir "$INSTALL_DIR" +app_update 380870 validate -beta unstable +quit; then
-            echo "BOOTSTRAP: Dedicated server successfully installed and validated."
-            return 0
-        else
-            if [ $attempts -eq $max_attempts ]; then
-                echo "BOOTSTRAP: CRITICAL dedicated server installation failed. Aborting."
-                return 1
-            else
-                echo "BOOTSTRAP: dedicated server installation failed. Trying again..."
-                attempts=$(( attempts + 1 ))
-            fi
-        fi
-    done
-}
+source /root/lib/filetostrlib.sh
+source /root/lib/steamcmdlib.sh
 
 install_defaults() {
     # Install db with default admin account
@@ -59,7 +43,45 @@ install_defaults() {
     echo "BOOTSTRAP: RCON password defined as '$rcon_pwd'."
 }
 
-install_server
-install_defaults
 
+install_mods () {
+    echo "BOOTSTRAP: installing mods ..."
+
+    echo "BOOTSTRAP: verifying 'mods.txt' ..."
+    if [ ! -e "$DATA_DIR/mods.txt" ]; then
+        touch "$DATA_DIR/mods.txt"
+    fi
+
+    echo "BOOTSTRAP: verifying 'workshopitems.txt' ..."
+    if [ ! -e "$DATA_DIR/workshopitems.txt" ]; then
+        touch "$DATA_DIR/workshopitems.txt"
+    fi
+
+    echo "BOOTSTRAP: verifying mods ..."
+    CFG_FILE="$DATA_DIR/Server/servertest.ini"
+
+    echo "BOOTSTRAP: updating mods ..."
+    option_mods=""
+    if [ -n "$(cat "$DATA_DIR/mods.txt")" ]; then
+        option_mods="$(join_file_lines "$DATA_DIR/mods.txt" '\\' "" ";")"
+    fi
+    sed -r -i "s/^Mods=[^$]*/Mods=$option_mods/g" "$CFG_FILE"
+
+    echo "BOOTSTRAP: updating workshopitems ..."
+    option_workshopitems=""
+    if [ -n "$(cat "$DATA_DIR/workshopitems.txt")" ]; then
+        option_workshopitems="$(join_file_lines "$DATA_DIR/workshopitems.txt" "" "" ";")"
+    fi
+    sed -r -i "s/^WorkshopItems=[^$]*/WorkshopItems=$option_workshopitems/g" "$CFG_FILE"
+}
+
+
+install_steamcmd_app "380870" "$INSTALL_DIR" "unstable"
+install_defaults
+install_mods
+
+echo "BOOTSTRAP: starting server ..."
 $@
+
+echo ""
+echo "BOOTSTRAP: server exited with ($?)"

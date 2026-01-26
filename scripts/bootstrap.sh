@@ -10,6 +10,7 @@ DEFAULTS_DIR="$HOME/defaults"
 
 source /root/lib/filetostrlib.sh
 source /root/lib/steamcmdlib.sh
+source /root/lib/stringlib.sh
 
 install_defaults() {
     # Install db with default admin account
@@ -63,18 +64,20 @@ install_mods () {
     echo "BOOTSTRAP: updating mods ..."
     option_mods=""
     if [ -n "$(cat "$DATA_DIR/mods.txt")" ]; then
-        option_mods="$(join_file_lines "$DATA_DIR/mods.txt" '\\' "" ";")"
+        option_mods="$(join_file_lines "$DATA_DIR/mods.txt" '\' "" ";")"
+        option_mods="$(escape_sed_regex_chars "$option_mods")"
     fi
-    sed -r -i "s/^Mods=[^$]*/Mods=$option_mods/g" "$CFG_FILE"
+    echo "$option_mods"
+    sed -r -i 's/^Mods=[^$]*/Mods='"$option_mods"'/g' "$CFG_FILE"
 
     echo "BOOTSTRAP: updating workshopitems ..."
     option_workshopitems=""
     if [ -n "$(cat "$DATA_DIR/workshopitems.txt")" ]; then
         option_workshopitems="$(join_file_lines "$DATA_DIR/workshopitems.txt" "" "" ";")"
+        option_workshopitems="$(escape_sed_regex_chars "$option_workshopitems")"
     fi
-    sed -r -i "s/^WorkshopItems=[^$]*/WorkshopItems=$option_workshopitems/g" "$CFG_FILE"
+    sed -r -i 's/^WorkshopItems=[^$]*/WorkshopItems='"$option_workshopitems"'/g' "$CFG_FILE"
 }
-
 
 install_steamcmd_app "380870" "$INSTALL_DIR" "unstable"
 install_defaults

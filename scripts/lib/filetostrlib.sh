@@ -21,7 +21,9 @@ join_file_lines() {
     result=""
 
     while read line; do
-        result="$prefix$line$sufix$sep$result"
+        if [ -n "$line" ]; then
+            result="$prefix$line$sufix$sep$result"
+        fi
     done <"$file"
 
     if [ -n "$result" ]; then

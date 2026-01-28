@@ -1,8 +1,27 @@
-# Dedicated Server Containers
+# Terraria Dedicated Server
 
-This repository contains images to host dedicated game servers. You can access a specific image from the list below or by switching the repository branch.
+## Build Image
 
-- [Don‘t Starve Together](https://github.com/devleonardoamaral/steamcmd-containers/tree/dont-starve-together)
-- [Hytale](https://github.com/devleonardoamaral/dedicated-server-images/tree/hytale)
-- [Project Zomboid](https://github.com/devleonardoamaral/dedicated-server-containers/tree/project-zomboid)
-- [Valheim](https://github.com/devleonardoamaral/steamcmd-containers/tree/valheim)
+```bash
+podman build --tag terraria:latest --format docker .
+```
+
+## Create Container
+
+```bash
+podman create -it --name terraria-server \
+    -p 7777:7777/tcp \
+    -v ./data/worlds/:/root/.local/share/Terraria/Worlds/:z \
+    -v ./data/config/:/root/config/:z \
+    terraria:latest "$GAME_VERSION"
+```
+
+## Start Container
+
+```bash
+podman start terraria-server
+```
+
+## Stop Container
+
+Run `exit` command on server console.

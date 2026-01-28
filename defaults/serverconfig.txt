@@ -55,7 +55,7 @@ motd=Please don’t cut the purple trees!
 worldpath=/root/.local/share/Terraria/Worlds/
 
 #The location of the banlist. Defaults to "banlist.txt" in the working directory.
-banlist=banlist.txt
+banlist=/root/config/banlist.txt
 
 #Adds addition cheat protection.
 secure=1

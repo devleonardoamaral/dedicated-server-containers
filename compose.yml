@@ -1,0 +1,12 @@
+services:
+  paper_mc:
+    build:
+      context: ./image
+      args:
+        MC_VERSION: 26.1.1
+        PAPER_BUILD: 29
+    ports:
+      - "25565:25565/tcp"
+      - "24454:24454/udp"
+    volumes:
+      - ./data:/srv/server

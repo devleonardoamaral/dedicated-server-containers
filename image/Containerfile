@@ -3,7 +3,7 @@ FROM sapmachine:25
 ARG MC_VERSION=26.1.1
 ARG PAPER_BUILD=29
 
-RUN apt-get update && apt-get install -y curl jq && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y curl ca-certificates jq && rm -rf /var/lib/apt/lists/*
 
 RUN curl -L "$(curl -L -s https://fill.papermc.io/v3/projects/paper/versions/${MC_VERSION}/builds/${PAPER_BUILD} | jq -r '.downloads."server:default".url')" -o /tmp/papermc.jar
 

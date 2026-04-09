@@ -1,5 +1,5 @@
 services:
-  paper_mc:
+  server:
     build:
       context: ./image
       args:

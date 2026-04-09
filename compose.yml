@@ -13,3 +13,4 @@ services:
       - "24454:24454/udp"
     volumes:
       - ./data:/srv/server
+    stdin_open: true

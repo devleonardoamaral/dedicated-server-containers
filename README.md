@@ -16,7 +16,7 @@ podman compsoe down
 
 ## Updating image
 
-First, change the parameters of `compose.yml` to your desired Minecraft version and PaperMC build.
+First, change the parameters of `compose.yml` to your desired Minecraft version and PaperMC build. To obtain the Minecraft versions and PaperMC builds, please refer to [this link](https://fill-ui.papermc.io/projects/paper).
 
 ```yml
 build:

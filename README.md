@@ -1,60 +1,110 @@
 # Don’t Starve Together Dedicated Server
 
-## Server configuration setup
+Containerized setup for running a Don't Starve Together Dedicated Server using Podman or Docker, with persistent worlds and configurable settings.
 
-1. Go to: [https://accounts.klei.com/account/game/servers?game=DontStarveTogether](https://accounts.klei.com/account/game/servers?game=DontStarveTogether)
-2. Create a server and download `MyDediServer.zip`.
-3. Extract it.
-4. Place all extracted files into `./data`.
+---
 
-The container expects the standard Klei layout (clusters/worlds) inside `./data`.
+## Initial setup
 
-## Adding mods
+1. Go to [Klei's server page](https://accounts.klei.com/account/game/servers?game=DontStarveTogether) and log into your account.
+2. Create a new server — it can be named anything, like MyDediServer.
+3. Download the generated zip file (e.g., `MyDediServer.zip`).
+4. Extract it and copy all files from inside the zip into `./image/servercfg/`, overwriting the existing defaults:
 
-To add mods to the server you need setup the files `./mods/dedicated_server_mods_setup.lua` and `./mods/modoverrides.lua`.
+```bash
+# Example: if you extracted to ~/Downloads/MyDediServer/
+cp ~/Downloads/MyDediServer/* ./image/servercfg/
+```
+> The default config files are already there — replace them with your downloaded versions. Do not overwrite cluster_token.txt; your token will be injected via .env at runtime.
 
-## Build Image
+5. Open the downloaded `cluster_token.txt` and copy the token string inside.
+6. In your repository folder, copy `.env.example` to `.env`:
 
-```sh
-podman build --tag dst:latest --format docker .
+```bash
+cp .env.example .env
 ```
 
-## Create container
+7. Open `.env` and paste the token as the value for `KLEI_TOKEN`:
 
-Bind the extracted config folder to the expected path inside the container:
+```txt
+KLEI_TOKEN=your-copied-token-here
+```
+> The token will be injected into the game's config at runtime.
+
+## Starting
 
 ```sh
-podman create -ti \
-  --name dst-server \
-  -v ./data:/root/.klei/DoNotStarveTogether/MyDediServer:z \
-  localhost/dst:latest
+podman-compose up -d --build
 ```
 
-> `./data` will contain saves, logs, and configs.
+The first build downloads and installs the game (~2GB), so it may take several minutes.
 
-## Start / Stop
+## Stopping Safely
 
-```sh
-podman start dst-server
-podman stop dst-server
+Don't Starve Together **does not respond to stop signals**. Graceful shutdown must be done manually through each shard's console to prevent world corruption.
+
+Stop Caves first, then Master:
+
+```bash
+podman attach dst-caves
+```
+
+Type in the console:
+
+```txt
+c_shutdown()
+```
+
+Wait for the process to exit, then detach with `Ctrl+P`, `Ctrl+Q`.
+
+```bash
+podman attach dst-master
+```
+
+Type in the console:
+
+```txt
+c_shutdown()
+```
+
+Wait for the process to exit, then detach with `Ctrl+P`, `Ctrl+Q`.
+
+## Updating
+
+Rebuild images after game updates or config changes. Saves are preserved in the volume:
+
+```bash
+podman-compose up -d --build --no-cache
 ```
 
 ## Logs
 
-```sh
-podman logs -f dst-server
+To view the server logs, use:
+
+```bash
+# All services
+podman-compose logs
+
+# Follow in real time
+podman-compose logs -f
+
+# Last 50 lines only
+podman-compose logs --tail 50
+
+# Specific container
+podman logs -f dst-master
 ```
 
-## Updating the server
+## Where save data is stored
 
-```sh
-podman build --tag dst:latest .
-podman stop dst-server
-podman rm dst-server
-podman create ... (same command as above)
-podman start dst-server
-```
+World saves and config persist in a Docker/Podman volume. You can access the files directly at:
+
+| Setup | Path |
+|-------|------|
+| Podman (rootless) | `$HOME/.local/share/containers/storage/volumes/dst-data/_data/` |
+| Podman (root) | `/var/lib/containers/storage/volumes/dst-data/_data/` |
+| Docker | `/var/lib/docker/volumes/dst-data/_data/` |
 
 ## Notes
 
-* Port fowarding isn‘t required to the server be visible publicly.
+* Port forwarding isn't required for the server to be visible.

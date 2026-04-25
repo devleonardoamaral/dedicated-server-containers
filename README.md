@@ -27,7 +27,7 @@ Default parameters:
 | Argument         | Default                            |
 | ---------------- | ---------------------------------- |
 | VERSION          | 1456                               |
-| LANG             | pt-BR                              |
+| LANG             | en-US                              |
 | WORLD_NAME       | world1                             |
 | WORLD_SIZE       | 2                                  |
 | WORLD_SEED       | AwesomeSeed                        |
@@ -43,7 +43,7 @@ Default parameters:
 
 ### Ports
 
-Internally, the container exposes port `7777/udp`. To allow players to connect, map the port to the host and forward it through your network:
+Internally, the container exposes ports `7777/tcp` and `7777/udp`. To allow players to connect, map the port to the host and forward it through your network:
 
 ```bash
 nano compose.yml
@@ -52,6 +52,7 @@ nano compose.yml
 ```yml
 ports:
   # "Host:Container/protocol"
+  - "7777:7777/tcp"
   - "7777:7777/udp"
 ```
 
@@ -100,3 +101,11 @@ To display only the most recent lines, use `--tail`:
 ```bash
 podman-compose logs --tail 50
 ```
+
+### Persistent Volume
+
+The persistent volume containing the saves is stored in specific paths depending on the containerization software used.
+
+- Podman (rootless): `$HOME/.local/share/containers/storage/volumes/<volume>/_data/`
+- Podman (root): `/var/lib/containers/storage/volumes/<volume>/_data/`
+- Docker: `/var/lib/docker/volumes/<volume>/_data/`

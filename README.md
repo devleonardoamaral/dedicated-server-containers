@@ -5,7 +5,7 @@ Containerized setup for running a **Terraria Dedicated Server** using Podman or 
 ## Features
 
 * Automatic world creation
-* Fully configurable server settings during image build
+* Fully configurable server settings
 * Persistent volume for worlds and backups
 
 ---

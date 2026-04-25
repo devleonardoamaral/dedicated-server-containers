@@ -7,13 +7,11 @@ dontstarve_dir="$HOME/.klei/DoNotStarveTogether/"
 
 cluster_dir="/$dontstarve_dir/$cluster_name"
 
-
 if [ ! -d  "$cluster_dir" ]; then
     mkdir -p $cluster_dir
 fi
 
 cp -rf /servercfg/* $cluster_dir
-echo "${KLEI_TOKEN}" > $cluster_dir/cluster_token.txt
 
 function fail()
 {

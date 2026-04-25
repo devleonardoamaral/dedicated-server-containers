@@ -4,6 +4,7 @@ services:
     stop_signal: SIGKILL
     build:
       context: ./image
+    image: dst-server:latest
     environment:
       CLUSTER_NAME: MyDediServer
       SERVER_TYPE: Master
@@ -18,8 +19,7 @@ services:
   dst-caves:
     container_name: dst-caves
     stop_signal: SIGKILL
-    build:
-      context: ./image
+    image: dst-server:latest
     environment:
       CLUSTER_NAME: MyDediServer
       SERVER_TYPE: Caves
@@ -35,6 +35,7 @@ services:
 
 volumes:
   dst-data:
+    name: "dst-data"
 
 networks:
   dst-network:

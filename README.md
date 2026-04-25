@@ -23,7 +23,7 @@ Containerized setup for running a Don't Starve Together Dedicated Server using P
 podman-compose up -d --build
 ```
 
-The first build downloads and installs the game (~2GB), so it may take several minutes.
+The first build downloads and installs the game (~4GB), so it may take several minutes.
 
 ## Stopping Safely
 
@@ -41,7 +41,7 @@ Don't Starve Together **does not respond to stop signals**. Graceful shutdown mu
   c_shutdown()
   ```
 
-3. Wait for the process to exit, then detach with `Ctrl+P`, `Ctrl+Q`.
+3. Press `ENTER` and wait for the process to exit.
 
   ```bash
   podman attach dst-master
@@ -53,7 +53,7 @@ Don't Starve Together **does not respond to stop signals**. Graceful shutdown mu
   c_shutdown()
   ```
 
-5. Wait for the process to exit, then detach with `Ctrl+P`, `Ctrl+Q`.
+5. Press `ENTER` and wait for the process to exit.
 6. Remove the containers:
 
   ```bash

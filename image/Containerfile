@@ -9,8 +9,8 @@ ARG WORLD_SEED=AwesomeSeed
 ARG WORLD_DIFFICULTY=2
 ARG MAX_PLAYERS=6
 ARG PASSWORD=password
-ARG MODT="Please don’t cut the purple trees!"
-ARG SECURE=1
+ARG MOTD="Please don’t cut the purple trees!"
+ARG SECURE=0
 ARG UPNP=0
 ARG NPCSTREAM=60
 ARG PRIORITY=1
@@ -31,12 +31,6 @@ ARG JOURNEY_INCREASEPLACEMENTRANGE=2
 ARG JOURNEY_SETDIFFICULTY=2
 ARG JOURNEY_BIOMESPREAD_SETFROZEN=2
 ARG JOURNEY_SETSPAWNRATE=2
-
-# Create non-root user and group to run the server
-ARG UID=1000
-ARG GID=1000
-RUN groupadd -g ${GID} terraria \
- && useradd -u ${UID} -g ${GID} -m terraria
 
 # Install dependencies
 RUN apt-get update \
@@ -78,7 +72,7 @@ RUN sed -ri "s|^autocreate=.*|autocreate=${WORLD_SIZE}|" /opt/Terraria/config/se
 RUN sed -ri "s|^password=.*|password=${PASSWORD}|" /opt/Terraria/config/serverconfig.txt \
  && sed -ri "s|^maxplayers=.*|maxplayers=${MAX_PLAYERS}|" /opt/Terraria/config/serverconfig.txt \
  && sed -ri "s|^secure=.*|secure=${SECURE}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^motd=.*|motd=${MODT}|" /opt/Terraria/config/serverconfig.txt \
+ && sed -ri "s|^motd=.*|motd=${MOTD}|" /opt/Terraria/config/serverconfig.txt \
  && sed -ri "s|^upnp=.*|upnp=${UPNP}|" /opt/Terraria/config/serverconfig.txt \
  && sed -ri "s|^npcstream=.*|npcstream=${NPCSTREAM}|" /opt/Terraria/config/serverconfig.txt \
  && sed -ri "s|^priority=.*|priority=${PRIORITY}|" /opt/Terraria/config/serverconfig.txt
@@ -101,23 +95,14 @@ RUN sed -ri "s|^journeypermission_time_setfrozen=.*|journeypermission_time_setfr
  && sed -ri "s|^journeypermission_setspawnrate=.*|journeypermission_setspawnrate=${JOURNEY_SETSPAWNRATE}|" /opt/Terraria/config/serverconfig.txt
 
 # Set permissions
-RUN chown -R terraria:terraria /opt/Terraria \
- && chmod 755 /opt/Terraria \
- && chmod 755 /opt/Terraria/config \
- && chmod 644 /opt/Terraria/config/* \
- && chmod 755 /opt/Terraria/server \
- && chmod 644 /opt/Terraria/server/* \
- && chmod 755 /opt/Terraria/server/TerrariaServer.bin.x86_64 \
- && chmod 755 /opt/Terraria/server/lib64 \
- && chmod 644 /opt/Terraria/server/lib64/*
+RUN chmod +x /opt/Terraria/server/TerrariaServer.bin.x86_64
 
 # Configure container context
 WORKDIR /opt/Terraria
-USER terraria
 
 # Expose default Terraria server port
 EXPOSE 7777/udp
 
 # Define entrypoint and default command
 ENTRYPOINT ["/bin/bash"]
-CMD ["-c", "./server/TerrariaServer.bin.x86_64", "-config", "/opt/Terraria/config/serverconfig.txt"]
+CMD ["-c", "/opt/Terraria/server/TerrariaServer.bin.x86_64", "-config", "/opt/Terraria/config/serverconfig.txt"]

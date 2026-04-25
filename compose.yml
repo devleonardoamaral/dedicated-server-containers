@@ -7,9 +7,6 @@ services:
         # Terraria server version (e.g. 1453 = 1.4.5.3)
         VERSION: 1456
 
-        GID: 1000
-        UID: 1000
-
         # Sets the server language from its language code
         # English = en-US
         # German = de-DE
@@ -20,44 +17,44 @@ services:
         # Chinese = zh-Hans
         # Portuguese = pt-BR
         # Polish = pl-PL
-        # LANG: en-US
+        LANG: pt-BR
 
         # Sets the name of the world when using autocreate
-        # WORLD_NAME: world
+        WORLD_NAME: world1
 
         # Creates a new world if none is found
         # 1 = Small, 2 = Medium, 3 = Large
-        # WORLD_SIZE: 1
+        WORLD_SIZE: 2
 
         # Sets the world seed when using autocreate
-        # WORLD_SEED: "AwesomeSeed"
+        WORLD_SEED: "AwesomeSeed"
 
         # Sets the difficulty of the world
         # 0 = Classic, 1 = Expert, 2 = Master, 3 = Journey
-        # WOLRD_DIFFICULTY: 2
+        WORLD_DIFFICULTY: 2
 
         # Sets the max number of players allowed on the server (1–255)
-        # MAX_PLAYERS: 6
+        MAX_PLAYERS: 16
 
         # Sets the server password
         # PASSWORD: "password"
 
         # Sets the message of the day
-        # MOTD: "Please don’t cut the purple trees!"
+        MOTD: "Please don’t cut the purple trees!"
 
         # Adds additional cheat protection
-        # SECURE: 1
+        SECURE: 0
 
         # Automatically forward ports with uPNP (0 = disabled, 1 = enabled)
-        # UPNP: 0
+        UPNP: 0
 
         # Reduces enemy skipping but increases bandwidth usage
         # 0 = off, lower values = less skipping, more bandwidth
-        # NPCSTREAM: 60
+        NPCSTREAM: 60
 
         # Default system priority
         # 0 = Realtime, 1 = High, 2 = AboveNormal, 3 = Normal, 4 = BelowNormal, 5 = Idle
-        # PRIORITY: 1
+        PRIORITY: 1
 
         # Journey mode power permissions
         # 0 = Locked for everyone

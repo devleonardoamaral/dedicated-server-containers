@@ -69,6 +69,10 @@ c_shutdown()
 
 Wait for the process to exit, then detach with `Ctrl+P`, `Ctrl+Q`.
 
+```bash
+podman-compose down
+```
+
 ## Updating
 
 Rebuild images after game updates or config changes. Saves are preserved in the volume:

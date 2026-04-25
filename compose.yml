@@ -1,10 +1,11 @@
 services:
   server:
+    stop_signal: SIGINT
     build:
       context: ./image
       args:
         # Terraria server version (e.g. 1453 = 1.4.5.3)
-        # VERSION: 1453
+        VERSION: 1456
 
         GID: 1000
         UID: 1000
@@ -22,11 +23,11 @@ services:
         # LANG: en-US
 
         # Sets the name of the world when using autocreate
-        # WORLD_NAME: world1
+        # WORLD_NAME: world
 
         # Creates a new world if none is found
         # 1 = Small, 2 = Medium, 3 = Large
-        # WORLD_SIZE: 2
+        # WORLD_SIZE: 1
 
         # Sets the world seed when using autocreate
         # WORLD_SEED: "AwesomeSeed"

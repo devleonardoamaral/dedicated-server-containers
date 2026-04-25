@@ -119,5 +119,5 @@ USER terraria
 EXPOSE 7777/udp
 
 # Define entrypoint and default command
-ENTRYPOINT ["./server/TerrariaServer.bin.x86_64"]
-CMD ["-config", "/opt/Terraria/config/serverconfig.txt"]
+ENTRYPOINT ["/bin/bash"]
+CMD ["-c", "./server/TerrariaServer.bin.x86_64", "-config", "/opt/Terraria/config/serverconfig.txt"]

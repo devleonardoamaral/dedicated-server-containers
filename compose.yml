@@ -87,7 +87,7 @@ services:
       # World storage directory
       - server-data:/opt/Terraria/worlds
 
-    # Always restart the server unless explicitly stopped
+    # Always restart the server unless stopped
     restart: unless-stopped
 
     # Keep stdin open so the container is interactive

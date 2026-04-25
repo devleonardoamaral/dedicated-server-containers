@@ -7,78 +7,78 @@ services:
         # Terraria server version (e.g. 1453 = 1.4.5.3)
         VERSION: 1456
 
-        # Sets the server language from its language code
-        # English = en-US
-        # German = de-DE
-        # Italian = it-IT
-        # French = fr-FR
-        # Spanish = es-ES
-        # Russian = ru-RU
-        # Chinese = zh-Hans
-        # Portuguese = pt-BR
-        # Polish = pl-PL
-        LANG: pt-BR
+    environment:
+      # Sets the server language from its language code
+      # English = en-US
+      # German = de-DE
+      # Italian = it-IT
+      # French = fr-FR
+      # Spanish = es-ES
+      # Russian = ru-RU
+      # Chinese = zh-Hans
+      # Portuguese = pt-BR
+      # Polish = pl-PL
+      SERVER_LANG: en-US
 
-        # Sets the name of the world when using autocreate
-        WORLD_NAME: world1
+      # Sets the name of the world when using autocreate
+      WORLD_NAME: world1
 
-        # Creates a new world if none is found
-        # 1 = Small, 2 = Medium, 3 = Large
-        WORLD_SIZE: 2
+      # Creates a new world if none is found
+      # 1 = Small, 2 = Medium, 3 = Large
+      WORLD_SIZE: 2
 
-        # Sets the world seed when using autocreate
-        WORLD_SEED: "AwesomeSeed"
+      # Sets the world seed when using autocreate
+      # Keep commented for random seed
+      # WORLD_SEED: "AwesomeSeed"
 
-        # Sets the difficulty of the world
-        # 0 = Classic, 1 = Expert, 2 = Master, 3 = Journey
-        WORLD_DIFFICULTY: 2
+      # Sets the difficulty of the world
+      # 0 = Classic, 1 = Expert, 2 = Master, 3 = Journey
+      WORLD_DIFFICULTY: 2
 
-        # Sets the max number of players allowed on the server (1–255)
-        MAX_PLAYERS: 16
+      # Sets the max number of players allowed on the server (1–255)
+      MAX_PLAYERS: 16
 
-        # Sets the server password
-        # PASSWORD: "password"
+      # Sets the server password
+      # Keep commented to disable the password
+      # PASSWORD: "password"
 
-        # Sets the message of the day
-        MOTD: "Please don’t cut the purple trees!"
+      # Sets the message of the day
+      MOTD: "Please don’t cut the purple trees!"
 
-        # Adds additional cheat protection
-        SECURE: 0
+      # Adds additional cheat protection
+      SECURE: 0
 
-        # Automatically forward ports with uPNP (0 = disabled, 1 = enabled)
-        UPNP: 0
+      # Automatically forward ports with uPNP (0 = disabled, 1 = enabled)
+      UPNP: 0
 
-        # Reduces enemy skipping but increases bandwidth usage
-        # 0 = off, lower values = less skipping, more bandwidth
-        NPCSTREAM: 60
+      # Reduces enemy skipping but increases bandwidth usage
+      # 0 = off, lower values = less skipping, more bandwidth
+      NPCSTREAM: 60
 
-        # Default system priority
-        # 0 = Realtime, 1 = High, 2 = AboveNormal, 3 = Normal, 4 = BelowNormal, 5 = Idle
-        PRIORITY: 1
-
-        # Journey mode power permissions
-        # 0 = Locked for everyone
-        # 1 = Host only
-        # 2 = Everyone
-        # JOURNEY_TIME_SETFROZEN: 2
-        # JOURNEY_TIME_SETDAWN: 2
-        # JOURNEY_TIME_SETNOON: 2
-        # JOURNEY_TIME_SETDUSK: 2
-        # JOURNEY_TIME_SETMIDNIGHT: 2
-        # JOURNEY_GODMODE: 2
-        # JOURNEY_WIND_SETSTRENGTH: 2
-        # JOURNEY_RAIN_SETSTRENGTH: 2
-        # JOURNEY_TIME_SETSPEED: 2
-        # JOURNEY_RAIN_SETFROZEN: 2
-        # JOURNEY_WIND_SETFROZEN: 2
-        # JOURNEY_INCREASEPLACEMENTRANGE: 2
-        # JOURNEY_SETDIFFICULTY: 2
-        # JOURNEY_BIOMESPREAD_SETFROZEN: 2
-        # JOURNEY_SETSPAWNRATE: 2
+      # Journey mode power permissions
+      # 0 = Locked for everyone
+      # 1 = Host only
+      # 2 = Everyone
+      # JOURNEY_TIME_SETFROZEN: 2
+      # JOURNEY_TIME_SETDAWN: 2
+      # JOURNEY_TIME_SETNOON: 2
+      # JOURNEY_TIME_SETDUSK: 2
+      # JOURNEY_TIME_SETMIDNIGHT: 2
+      # JOURNEY_GODMODE: 2
+      # JOURNEY_WIND_SETSTRENGTH: 2
+      # JOURNEY_RAIN_SETSTRENGTH: 2
+      # JOURNEY_TIME_SETSPEED: 2
+      # JOURNEY_RAIN_SETFROZEN: 2
+      # JOURNEY_WIND_SETFROZEN: 2
+      # JOURNEY_INCREASEPLACEMENTRANGE: 2
+      # JOURNEY_SETDIFFICULTY: 2
+      # JOURNEY_BIOMESPREAD_SETFROZEN: 2
+      # JOURNEY_SETSPAWNRATE: 2
 
     ports:
       # Terraria server port
       # "Host:Container/protocol"
+      - "7777:7777/tcp"
       - "7777:7777/udp"
 
     volumes:

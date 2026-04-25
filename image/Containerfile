@@ -1,36 +1,7 @@
 FROM debian:trixie-slim
 
 # Build-time parameters used to generate server configuration
-ARG VERSION=1453
-ARG LANG=en-US
-ARG WORLD_NAME=world1
-ARG WORLD_SIZE=2
-ARG WORLD_SEED=AwesomeSeed
-ARG WORLD_DIFFICULTY=2
-ARG MAX_PLAYERS=6
-ARG PASSWORD=password
-ARG MOTD="Please don’t cut the purple trees!"
-ARG SECURE=0
-ARG UPNP=0
-ARG NPCSTREAM=60
-ARG PRIORITY=1
-
-# Journey mode permission levels (0: disabled, 1: host only, 2: everyone)
-ARG JOURNEY_TIME_SETFROZEN=2
-ARG JOURNEY_TIME_SETDAWN=2
-ARG JOURNEY_TIME_SETNOON=2
-ARG JOURNEY_TIME_SETDUSK=2
-ARG JOURNEY_TIME_SETMIDNIGHT=2
-ARG JOURNEY_GODMODE=2
-ARG JOURNEY_WIND_SETSTRENGTH=2
-ARG JOURNEY_RAIN_SETSTRENGTH=2
-ARG JOURNEY_TIME_SETSPEED=2
-ARG JOURNEY_RAIN_SETFROZEN=2
-ARG JOURNEY_WIND_SETFROZEN=2
-ARG JOURNEY_INCREASEPLACEMENTRANGE=2
-ARG JOURNEY_SETDIFFICULTY=2
-ARG JOURNEY_BIOMESPREAD_SETFROZEN=2
-ARG JOURNEY_SETSPAWNRATE=2
+ARG VERSION=1456
 
 # Install dependencies
 RUN apt-get update \
@@ -38,7 +9,7 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Create directory structure expected by the server
-RUN mkdir -p /opt/Terraria/server /opt/Terraria/config
+RUN mkdir -p /opt/Terraria/server
 
 # Download the official Terraria dedicated server package
 ADD https://terraria.org/api/download/pc-dedicated-server/terraria-server-${VERSION}.zip /tmp/terraria.zip
@@ -47,62 +18,18 @@ ADD https://terraria.org/api/download/pc-dedicated-server/terraria-server-${VERS
 RUN unzip /tmp/terraria.zip -d /tmp/terraria \
  && mv /tmp/terraria/${VERSION}/Linux/* /opt/Terraria/server \
  && rm -rf /tmp/terraria /tmp/terraria.zip
-
-# Copy default server configuration file into the image
-COPY serverconfig.txt \
-    /opt/Terraria/config/serverconfig.txt
-
-# Configure server language
-RUN sed -ri "s|^language=.*|language=${LANG}|" /opt/Terraria/config/serverconfig.txt
-
-# Configure filesystem paths used by the server
-RUN sed -ri "s|^worldpath=.*|worldpath=/opt/Terraria/worlds|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^banlist=.*|banlist=/opt/Terraria/config/banlist.txt|" /opt/Terraria/config/serverconfig.txt
-
-# Configure world file name and location
-RUN sed -ri "s|^worldname=.*|worldname=${WORLD_NAME}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^world=.*|world=/opt/Terraria/worlds/${WORLD_NAME}.wld|" /opt/Terraria/config/serverconfig.txt
-
-# Configure world generation parameters
-RUN sed -ri "s|^autocreate=.*|autocreate=${WORLD_SIZE}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^seed=.*|seed=${WORLD_SEED}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^difficulty=.*|difficulty=${WORLD_DIFFICULTY}|" /opt/Terraria/config/serverconfig.txt
-
-# Configure general server settings
-RUN sed -ri "s|^password=.*|password=${PASSWORD}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^maxplayers=.*|maxplayers=${MAX_PLAYERS}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^secure=.*|secure=${SECURE}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^motd=.*|motd=${MOTD}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^upnp=.*|upnp=${UPNP}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^npcstream=.*|npcstream=${NPCSTREAM}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^priority=.*|priority=${PRIORITY}|" /opt/Terraria/config/serverconfig.txt
-
-# Configure Journey mode permissions
-RUN sed -ri "s|^journeypermission_time_setfrozen=.*|journeypermission_time_setfrozen=${JOURNEY_TIME_SETFROZEN}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^journeypermission_time_setdawn=.*|journeypermission_time_setdawn=${JOURNEY_TIME_SETDAWN}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^journeypermission_time_setnoon=.*|journeypermission_time_setnoon=${JOURNEY_TIME_SETNOON}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^journeypermission_time_setdusk=.*|journeypermission_time_setdusk=${JOURNEY_TIME_SETDUSK}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^journeypermission_time_setmidnight=.*|journeypermission_time_setmidnight=${JOURNEY_TIME_SETMIDNIGHT}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^journeypermission_godmode=.*|journeypermission_godmode=${JOURNEY_GODMODE}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^journeypermission_wind_setstrength=.*|journeypermission_wind_setstrength=${JOURNEY_WIND_SETSTRENGTH}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^journeypermission_rain_setstrength=.*|journeypermission_rain_setstrength=${JOURNEY_RAIN_SETSTRENGTH}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^journeypermission_time_setspeed=.*|journeypermission_time_setspeed=${JOURNEY_TIME_SETSPEED}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^journeypermission_rain_setfrozen=.*|journeypermission_rain_setfrozen=${JOURNEY_RAIN_SETFROZEN}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^journeypermission_wind_setfrozen=.*|journeypermission_wind_setfrozen=${JOURNEY_WIND_SETFROZEN}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^journeypermission_increaseplacementrange=.*|journeypermission_increaseplacementrange=${JOURNEY_INCREASEPLACEMENTRANGE}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^journeypermission_setdifficulty=.*|journeypermission_setdifficulty=${JOURNEY_SETDIFFICULTY}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^journeypermission_biomespread_setfrozen=.*|journeypermission_biomespread_setfrozen=${JOURNEY_BIOMESPREAD_SETFROZEN}|" /opt/Terraria/config/serverconfig.txt \
- && sed -ri "s|^journeypermission_setspawnrate=.*|journeypermission_setspawnrate=${JOURNEY_SETSPAWNRATE}|" /opt/Terraria/config/serverconfig.txt
-
-# Set permissions
 RUN chmod +x /opt/Terraria/server/TerrariaServer.bin.x86_64
 
 # Configure container context
 WORKDIR /opt/Terraria
 
+# Copy entrypoint
+COPY entrypoint.sh /opt/Terraria/entrypoint.sh
+RUN chmod +x /opt/Terraria/entrypoint.sh
+
 # Expose default Terraria server port
+EXPOSE 7777/tcp
 EXPOSE 7777/udp
 
-# Define entrypoint and default command
-ENTRYPOINT ["/bin/bash"]
-CMD ["-c", "/opt/Terraria/server/TerrariaServer.bin.x86_64", "-config", "/opt/Terraria/config/serverconfig.txt"]
+# Define entrypoint
+ENTRYPOINT ["/opt/Terraria/entrypoint.sh"]

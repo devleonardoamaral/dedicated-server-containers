@@ -1,0 +1,43 @@
+services:
+  dst-master:
+    container_name: dst-master
+    stop_signal: SIGKILL
+    build:
+      context: ./image
+    environment:
+      CLUSTER_NAME: MyDediServer
+      SERVER_TYPE: Master
+      KLEI_TOKEN: ${KLEI_TOKEN:?KLEI_TOKEN enviroment var not found!}
+    volumes:
+      - "dst-data:/root/.klei/DoNotStarveTogether"
+    networks:
+      dst-network:
+        ipv4_address: 172.25.0.2
+
+  dst-caves:
+    container_name: dst-caves
+    stop_signal: SIGKILL
+    build:
+      context: ./image
+    environment:
+      CLUSTER_NAME: MyDediServer
+      SERVER_TYPE: Caves
+      KLEI_TOKEN: ${KLEI_TOKEN:?KLEI_TOKEN enviroment var not found!}
+    volumes:
+      - "dst-data:/root/.klei/DoNotStarveTogether"
+    networks:
+      dst-network:
+        ipv4_address: 172.25.0.3
+    depends_on:
+      - dst-master
+
+volumes:
+  dst-data:
+
+networks:
+  dst-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
+        - gateway: 172.25.0.1

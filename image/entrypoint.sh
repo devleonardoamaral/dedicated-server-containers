@@ -1,9 +1,19 @@
 #!/bin/bash
 
+cluster_name="${CLUSTER_NAME}"
 steamcmd_dir="$HOME/.steam/steam/steamcmd"
 install_dir="$HOME/.steam/steam/steamapps/common/Don't Starve Together Dedicated Server"
-cluster_name="MyDediServer"
 dontstarve_dir="$HOME/.klei/DoNotStarveTogether/"
+
+cluster_dir="/$dontstarve_dir/$cluster_name"
+
+
+if [ ! -d  "$cluster_dir" ]; then
+    mkdir -p $cluster_dir
+fi
+
+cp -rf /servercfg/* $cluster_dir
+echo "${KLEI_TOKEN}" > $cluster_dir/cluster_token.txt
 
 function fail()
 {
@@ -33,7 +43,13 @@ cd "$install_dir/bin64" || fail
 run_shared=(./dontstarve_dedicated_server_nullrenderer_x64)
 run_shared+=(-console)
 run_shared+=(-cluster "$cluster_name")
-run_shared+=(-monitor_parent_process $$)
+# run_shared+=(-monitor_parent_process $$)
 
-"${run_shared[@]}" -shard Caves  | sed 's/^/Caves:  /' &
-"${run_shared[@]}" -shard Master | sed 's/^/Master: /'
+if [ "${SERVER_TYPE}" == "Caves" ]; then
+    exec "${run_shared[@]}" -shard Caves  | sed 's/^/Caves:  /'
+elif [ "${SERVER_TYPE}" == "Master" ]; then
+    exec "${run_shared[@]}" -shard Master | sed 's/^/Master: /'
+else
+    echo "Error: invalid SERVER_TYPE"
+    exit 1
+fi

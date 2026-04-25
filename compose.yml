@@ -7,7 +7,6 @@ services:
     environment:
       CLUSTER_NAME: MyDediServer
       SERVER_TYPE: Master
-      KLEI_TOKEN: ${KLEI_TOKEN:?KLEI_TOKEN enviroment var not found!}
     volumes:
       - "dst-data:/root/.klei/DoNotStarveTogether"
     networks:
@@ -24,7 +23,6 @@ services:
     environment:
       CLUSTER_NAME: MyDediServer
       SERVER_TYPE: Caves
-      KLEI_TOKEN: ${KLEI_TOKEN:?KLEI_TOKEN enviroment var not found!}
     volumes:
       - "dst-data:/root/.klei/DoNotStarveTogether"
     networks:

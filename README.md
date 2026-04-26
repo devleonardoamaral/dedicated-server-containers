@@ -12,6 +12,6 @@ This repository contains images to host dedicated game servers. You can access a
 - [Valheim](https://github.com/devleonardoamaral/steamcmd-containers/tree/valheim)
 - [Minecraft PaperMC](https://github.com/devleonardoamaral/dedicated-server-containers/tree/minecraft-papermc)
 
-## Licença
+## License
 
-Este projeto está licenciado sob a **GNU General Public License v3.0** - veja o arquivo [LICENSE](LICENSE) para detalhes.
+This project is licensed under the **GNU General Public License v3.0** - see the [LICENSE](LICENSE) file for details.

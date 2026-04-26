@@ -106,6 +106,6 @@ podman-compose logs --tail 50
 
 The persistent volume containing the saves is stored in specific paths depending on the containerization software used.
 
-- Podman (rootless): `$HOME/.local/share/containers/storage/volumes/<volume>/_data/`
-- Podman (root): `/var/lib/containers/storage/volumes/<volume>/_data/`
-- Docker: `/var/lib/docker/volumes/<volume>/_data/`
+- Podman (rootless): `$HOME/.local/share/containers/storage/volumes/terraria-data/_data/`
+- Podman (root): `/var/lib/containers/storage/volumes/terraria-data/_data/`
+- Docker: `/var/lib/docker/volumes/terraria-data/_data/`

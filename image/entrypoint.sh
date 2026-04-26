@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CFG_FILE=/opt/Terraria/worlds/serverconfig.txt
+CFG_FILE=/opt/Terraria/serverconfig.txt
 
 # Apply server configuration
 echo "world=/opt/Terraria/worlds/${WORLD_NAME}.wld" > $CFG_FILE
@@ -24,7 +24,7 @@ if [ -n "${MOTD}" ]; then
 fi
 
 echo "worldpath=/opt/Terraria/worlds" >> $CFG_FILE
-echo "banlist=/opt/Terraria/worlds/banlist.txt" >> $CFG_FILE
+echo "banlist=/opt/Terraria/banlist.txt" >> $CFG_FILE
 echo "secure=${SECURE}" >> $CFG_FILE
 echo "language=${SERVER_LANG}" >> $CFG_FILE
 echo "upnp=${UPNP}" >> $CFG_FILE

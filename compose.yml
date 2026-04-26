@@ -6,7 +6,7 @@ services:
       args:
         # Terraria server version (e.g. 1453 = 1.4.5.3)
         VERSION: 1456
-
+    image: terraria:latest
     environment:
       # Sets the server language from its language code
       # English = en-US
@@ -92,7 +92,8 @@ services:
     stdin_open: true
 
     # Allocate a pseudo-TTY
-    tty: true
+    tty: false
 
 volumes:
   server-data:
+    name: "terraria-data"

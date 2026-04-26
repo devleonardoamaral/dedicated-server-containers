@@ -1,5 +1,6 @@
 services:
   server:
+    container_name: terraria-server
     stop_signal: SIGINT
     build:
       context: ./image

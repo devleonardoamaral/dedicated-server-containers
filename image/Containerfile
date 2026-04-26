@@ -8,7 +8,9 @@ RUN dpkg --add-architecture i386 \
 
 # Install game server
 # This step may fail a few times; no extra action is needed, just try building the image again.
-RUN steamcmd +login anonymous +app_update 343050 validate +quit
+RUN steamcmd +login anonymous +app_update 343050 validate +quit || \
+    steamcmd +login anonymous +app_update 343050 validate +quit || \
+    steamcmd +login anonymous +app_update 343050 validate +quit
 
 # Setup entrypoint script
 COPY entrypoint.sh /entrypoint.sh

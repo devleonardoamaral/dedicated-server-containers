@@ -15,7 +15,7 @@ function install_server_config()
     cp -rf /servercfg/* "$cluster_dir"
 
     sed -Ei 's/^bind_ip =.*$/bind_ip = 172.25.0.2/' "$cluster_dir/cluster.ini"
-    sed -Ei 's/^bind_ip =.*$/bind_ip = 172.25.0.2/' "$cluster_dir/master_ip.ini"
+    sed -Ei 's/^master_ip =.*$/master_ip = 172.25.0.2/' "$cluster_dir/cluster.ini"
 }
 
 function fail()

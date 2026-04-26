@@ -87,18 +87,13 @@ exit
 To view the server logs, use:
 
 ```bash
+# All services
 podman-compose logs
-```
 
-To follow the logs in real-time, add the `-f` flag:
-
-```bash
+# Follow in real time
 podman-compose logs -f
-```
 
-To display only the most recent lines, use `--tail`:
-
-```bash
+# Last 50 lines only
 podman-compose logs --tail 50
 ```
 

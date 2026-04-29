@@ -1,17 +1,36 @@
-# Dedicated Server Containers
+# Minecraft Neoforge Dedicated Server
 
-This repository contains images to host dedicated game servers. You can access a specific image from the list below or by switching the repository branch.
+Containerized setup for running a Minecraft Neoforge Dedicated Server using Podman or Docker, with persistent worlds and configurable settings.
 
-## Development completed
-- [Terraria](https://github.com/devleonardoamaral/dedicated-server-containers/tree/terraria)
-- [Don‘t Starve Together](https://github.com/devleonardoamaral/steamcmd-containers/tree/dont-starve-together)
+# Starting
 
-## Work in progress
-- [Hytale](https://github.com/devleonardoamaral/dedicated-server-images/tree/hytale)
-- [Project Zomboid](https://github.com/devleonardoamaral/dedicated-server-containers/tree/project-zomboid)
-- [Valheim](https://github.com/devleonardoamaral/steamcmd-containers/tree/valheim)
-- [Minecraft PaperMC](https://github.com/devleonardoamaral/dedicated-server-containers/tree/minecraft-papermc)
+```bash
+podman-compose up -d --build
+```
 
-## License
+# Stopping Safely
 
-This project is licensed under the **GNU General Public License v3.0** - see the [LICENSE](LICENSE) file for details.
+```bash
+podman-compose down
+```
+
+# Updating
+
+Rebuild images after game updates or config changes. Saves are preserved in the volume:
+
+```bash
+podman-compose up -d --build --no-cache
+```
+
+# Logs
+
+```bash
+# All services
+podman-compose logs
+
+# Follow in real time
+podman-compose logs -f
+
+# Last 50 lines only
+podman-compose logs --tail 50
+```

@@ -1,0 +1,31 @@
+services:
+  server:
+    # Define unique names for each container instance if you want to run more than one server
+    container_name: neoforge-server
+    image: neoforge:latest
+    stop_signal: SIGTERM
+    build:
+      context: ./image
+      args:
+        NEO_VERSION: 21.1.228
+    environment:
+      # Define unique names for each server instance if you want to run more than one server
+      SERVER_NAME: myserver
+      # Minimum memory that the JVM should use
+      SERVER_XMS: 2048m
+      # Maximum memory that the JVM should use
+      SERVER_XMX: 4096m
+      # Custom JVM args
+      SERVER_ARGS:
+    volumes:
+      - "neoforge-data:/opt/Minecraft/servers"
+    ports:
+      - "25565:25565/tcp"
+      # Optional: if using Simple Voice Chat
+      # - "24454:24454/udp"
+    stdin_open: true
+    tty: false
+
+volumes:
+  neoforge-data:
+    name: neoforge-data

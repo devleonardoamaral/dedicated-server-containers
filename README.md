@@ -2,19 +2,19 @@
 
 Containerized setup for running a Minecraft Neoforge Dedicated Server using Podman or Docker, with persistent worlds and configurable settings.
 
-# Starting
+## Starting
 
 ```bash
 podman-compose up -d --build
 ```
 
-# Stopping Safely
+## Stopping Safely
 
 ```bash
 podman-compose down
 ```
 
-# Updating
+## Updating
 
 Rebuild images after game updates or config changes. Saves are preserved in the volume:
 
@@ -22,7 +22,7 @@ Rebuild images after game updates or config changes. Saves are preserved in the 
 podman-compose up -d --build --no-cache
 ```
 
-# Logs
+## Logs
 
 ```bash
 # All services

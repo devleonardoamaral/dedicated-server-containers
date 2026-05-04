@@ -7,6 +7,8 @@ RUN mkdir -p /opt/Minecraft/neoforge
 ADD https://maven.neoforged.net/releases/net/neoforged/neoforge/${NEO_VERSION}/neoforge-${NEO_VERSION}-installer.jar /opt/Minecraft/image/neoforge-installer.jar
 RUN cd /opt/Minecraft/image && java -jar neoforge-installer.jar --installServer && echo "eula=true" > eula.txt
 
+EXPOSE 25565/tcp
+
 # Setup entrypoint
 COPY ./entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

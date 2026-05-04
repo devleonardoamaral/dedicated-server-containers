@@ -3,7 +3,7 @@ services:
     # Define unique names for each container instance if you want to run more than one server
     container_name: neoforge-server
     image: neoforge:latest
-    stop_signal: SIGTERM
+    stop_signal: SIGINT
     build:
       context: ./image
       args:
@@ -23,8 +23,9 @@ services:
       - "25565:25565/tcp"
       # Optional: if using Simple Voice Chat
       # - "24454:24454/udp"
+    restart: unless-stopped
     stdin_open: true
-    tty: false
+    tty: true
 
 volumes:
   neoforge-data:

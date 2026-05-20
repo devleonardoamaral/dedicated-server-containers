@@ -4,6 +4,20 @@ Containerized setup for running a Minecraft Neoforge Dedicated Server using Podm
 
 ## Starting
 
+Copy the `.env.example` file and rename it to `.env`s:
+
+```bash
+cp .env.example .env
+```
+
+Then edit the values within this file according to your needs:
+
+```bash
+nano .env
+```
+
+Start the server using the command below; the first run takes longer because the image is being built:
+
 ```bash
 podman-compose up -d --build
 ```
@@ -16,7 +30,7 @@ podman-compose down
 
 ## Updating
 
-Rebuild images after game updates or config changes. Saves are preserved in the volume:
+Rebuild the image after modifying the `.env` file. The volume containing the server save is preserved:
 
 ```bash
 podman-compose up -d --build --no-cache

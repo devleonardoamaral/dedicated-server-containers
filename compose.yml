@@ -1,0 +1,30 @@
+services:
+  forge:
+    container_name: ${SERVER_NAME:-forge-server}
+    image: forge:latest
+    stop_signal: SIGINT
+    build:
+      context: ./image
+      args:
+        JAVA_VERSION: ${JAVA_VERSION:-25}
+        MINECRAFT_VERSION: ${MINECRAFT_VERSION:-26.1.2}
+        FORGE_VERSION: ${FORGE_VERSION:-64.0.8}
+    volumes:
+      - forge-data:/opt/Minecraft/servers
+    environment:
+      MINECRAFT_VERSION: ${MINECRAFT_VERSION:-26.1.2}
+      FORGE_VERSION: ${FORGE_VERSION:-64.0.8}
+      SERVER_NAME: ${SERVER_NAME:-myserver}
+      JVM_XMS: ${JVM_XMS:-4096m}
+      JVM_XMX: ${JVM_XMX:-4096m}
+      JVM_ARGS: ${JVM_ARGS:-}
+    ports:
+      - ${SERVER_PORT:-25565}:25565/tcp
+      - ${SERVER_VOIP_PORT:-24464}:24464/udp
+    restart: always
+    stdin_open: true
+    tty: true
+
+volumes:
+  forge-data:
+    name: forge-data

@@ -1,17 +1,50 @@
-# Dedicated Server Containers
+# Minecraft Forge Dedicated Server
 
-This repository contains images to host dedicated game servers. You can access a specific image from the list below or by switching the repository branch.
+Containerized setup for running a Minecraft Forge Dedicated Server using Podman or Docker, with persistent worlds and configurable settings.
 
-## Development completed
-- [Terraria](https://github.com/devleonardoamaral/dedicated-server-containers/tree/terraria)
-- [Don‘t Starve Together](https://github.com/devleonardoamaral/steamcmd-containers/tree/dont-starve-together)
+## Starting
 
-## Work in progress
-- [Hytale](https://github.com/devleonardoamaral/dedicated-server-images/tree/hytale)
-- [Project Zomboid](https://github.com/devleonardoamaral/dedicated-server-containers/tree/project-zomboid)
-- [Valheim](https://github.com/devleonardoamaral/steamcmd-containers/tree/valheim)
-- [Minecraft PaperMC](https://github.com/devleonardoamaral/dedicated-server-containers/tree/minecraft-papermc)
+Copy the `.env.example` file and rename it to `.env`s:
 
-## License
+```bash
+cp .env.example .env
+```
 
-This project is licensed under the **GNU General Public License v3.0** - see the [LICENSE](LICENSE) file for details.
+Then edit the values within this file according to your needs:
+
+```bash
+nano .env
+```
+
+Start the server using the command below; the first run takes longer because the image is being built:
+
+```bash
+podman-compose up -d --build
+```
+
+## Stopping Safely
+
+```bash
+podman-compose down
+```
+
+## Updating
+
+Rebuild the image after modifying the `.env` file. The volume containing the server save is preserved:
+
+```bash
+podman-compose up -d --build --no-cache
+```
+
+## Logs
+
+```bash
+# All services
+podman-compose logs
+
+# Follow in real time
+podman-compose logs -f
+
+# Last 50 lines only
+podman-compose logs --tail 50
+```

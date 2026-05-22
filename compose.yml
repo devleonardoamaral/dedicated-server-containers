@@ -6,9 +6,10 @@ services:
     build:
       context: ./image
       args:
-        NEOFORGE_VERSION: ${NEOFORGE_VERSION:-21.1.230}
+        JAVA_VERSION: ${JAVA_VERSION:-25}
+        NEOFORGE_VERSION: ${NEOFORGE_VERSION:-26.1.2.55-beta}
     environment:
-      NEOFORGE_VERSION:
+      NEOFORGE_VERSION: ${NEOFORGE_VERSION:-26.1.2.55-beta}
       SERVER_NAME: ${SERVER_NAME:-myserver}
       JVM_XMS: ${JVM_XMS:-4096m}
       JVM_XMX: ${JVM_XMX:-4096m}

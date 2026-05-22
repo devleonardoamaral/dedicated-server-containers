@@ -1,4 +1,6 @@
-FROM sapmachine:21
+ARG JAVA_VERSION
+
+FROM sapmachine:${JAVA_VERSION}
 
 ARG NEOFORGE_VERSION
 

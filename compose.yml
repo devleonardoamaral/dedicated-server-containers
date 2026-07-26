@@ -1,0 +1,27 @@
+services:
+  server:
+    container_name: ${CONTAINER_NAME:-zomboid-server}
+    build:
+      context: ./image
+      args:
+        BRANCH: ${BRANCH:-public}
+    environment:
+      SERVER_NAME: ${SERVER_NAME:-servertest}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-admin}
+      JVM_XMS: ${JVM_XMS:-4096m}
+      JVM_XMX: ${JVM_XMX:-4096m}
+      JVM_ARGS: ${JVM_ARGS}
+    image: zomboid:latest
+    ports:
+      - "${SERVER_PORT:-16261}:16261/udp"
+      - "${SERVER_UDPPORT_PORT:-16262}:16262/udp"
+    volumes:
+      - server-data:/root/Zomboid
+    stdin_open: true
+    tty: true
+    stop_grace_period: 30s
+
+volumes:
+  server-data:
+    name: "zomboid-data"

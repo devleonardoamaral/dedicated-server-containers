@@ -88,7 +88,7 @@ QUIT=0
 trap "QUIT=1" TERM INT
 
 while [ "$QUIT" -eq "0" ] && kill -0 "$SERVER_PID" >& /dev/null ; do
-	sleep 5;
+	sleep 10;
 
 	if read -t 0 ; then
 		echo "STDIN: Found stdin, writing to pipe."

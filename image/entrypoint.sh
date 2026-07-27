@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 INSTDIR="/root/.local/share/Steam/steamapps/common/Project Zomboid Dedicated Server"
-# libPZXInitThreads64.so
 
 cd "${INSTDIR}"
 

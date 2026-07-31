@@ -11,5 +11,4 @@ WORKDIR /root
 COPY ./entrypoint.sh /root/entrypoint.sh
 RUN chmod +x /root/entrypoint.sh
 
-# ENTRYPOINT [ "/bin/bash", "-c", "/bin/bash" ]
 ENTRYPOINT [ "./entrypoint.sh" ]

@@ -64,6 +64,13 @@ else
 fi
 EOF
 
+sed -i "s/^RCONPassword=.*$/RCONPassword=$SERVER_RCON_PASSWORD/" "/root/Zomboid/Server/${SERVER_NAME}.ini"
+sed -i "s/^DiscordEnable=.*$/DiscordEnable=$DISCORD_ENABLE/" "/root/Zomboid/Server/${SERVER_NAME}.ini"
+sed -i "s/^DiscordToken=.*$/DiscordToken=$DISCORD_TOKEN/" "/root/Zomboid/Server/${SERVER_NAME}.ini"
+sed -i "s/^DiscordChatChannel=.*$/DiscordChatChannel=$DISCORD_CHANNEL_CHAT_NAME/" "/root/Zomboid/Server/${SERVER_NAME}.ini"
+sed -i "s/^DiscordLogChannel=.*$/DiscordLogChannel=$DISCORD_CHANNEL_LOG_NAME/" "/root/Zomboid/Server/${SERVER_NAME}.ini"
+sed -i "s/^DiscordCommandChannel=.*$/DiscordCommandChannel=$DISCORD_CHANNEL_CMD_NAME/" "/root/Zomboid/Server/${SERVER_NAME}.ini"
+
 ARGS="-servername ${SERVER_NAME:-servertest}"
 
 if [ -n "$ADMIN_PASSWORD" ]; then

@@ -93,8 +93,8 @@ echo "ENTRYPOINT: The PID of the server is $SERVER_PID!"
 QUIT=0
 trap "QUIT=1" TERM INT
 
-while [ "$QUIT" -eq "0" ] && kill -0 "$SERVER_PID" >& /dev/null ; do
-	sleep 10;
+while [ "$QUIT" -eq "0" ] && kill -0 "$SERVER_PID" &> /dev/null; do
+	sleep 5;
 
 	if read -t 0 ; then
 		echo "STDIN: Found stdin, writing to pipe."
@@ -105,11 +105,16 @@ while [ "$QUIT" -eq "0" ] && kill -0 "$SERVER_PID" >& /dev/null ; do
 	fi
 done
 
-echo "ENTRYPOINT: Executing 'quit' command"
-echo "quit" > "$ZOMBOID_STDIN_PIPE"
+if kill -0 "$SERVER_PID" &> /dev/null; then
+	echo "ENTRYPOINT: Received shutdown signal. Shutting down..."
+	echo "ENTRYPOINT: Executing 'quit' command..."
+	echo "quit" > "$ZOMBOID_STDIN_PIPE"
 
-echo "ENTRYPOINT: Waiting for child processes..."
-wait 
+	echo "ENTRYPOINT: Waiting for child processes..."
+	wait
+else
+	echo "ENTRYPOINT: Server process not found. Shutting down..."
+fi
 
 rm "$ZOMBOID_STDIN_PIPE"
 echo "ENTRYPOINT: gracefully shutdown"

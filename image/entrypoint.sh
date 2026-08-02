@@ -112,9 +112,13 @@ if kill -0 "$SERVER_PID" &> /dev/null; then
 
 	echo "ENTRYPOINT: Waiting for child processes..."
 	wait
+
+	rm "$ZOMBOID_STDIN_PIPE"
+	echo "ENTRYPOINT: gracefully shutdown"
+	exit 0
 else
+	rm "$ZOMBOID_STDIN_PIPE"
 	echo "ENTRYPOINT: Server process not found. Shutting down..."
+	exit 1
 fi
 
-rm "$ZOMBOID_STDIN_PIPE"
-echo "ENTRYPOINT: gracefully shutdown"

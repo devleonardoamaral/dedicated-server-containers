@@ -24,7 +24,8 @@ services:
       - "${SERVER_UDPPORT_PORT:-16262}:16262/udp"
       - "${SERVER_RCON_PORT:-27015}:27015/tcp"
     volumes:
-      - server-data:/root/Zomboid
+      - "server-data:/root/Zomboid"
+      - "server-cache:/root/.local/share/Steam/steamapps/common/Project Zomboid Dedicated Server/steamapps/workshop"
     stdin_open: true
     tty: true
     stop_grace_period: 30s
@@ -33,3 +34,5 @@ services:
 volumes:
   server-data:
     name: "zomboid-data"
+  server-cache:
+    name: "zomboid-cache"

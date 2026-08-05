@@ -1,16 +1,21 @@
-FROM sapmachine:25
+ARG JAVA_VERSION
 
-ARG MC_VERSION=26.1.1
-ARG PAPER_BUILD=29
+FROM sapmachine:${JAVA_VERSION}
 
-RUN apt-get update && apt-get install -y curl ca-certificates jq && rm -rf /var/lib/apt/lists/*
+ARG MINECRAFT_VERSION
+ARG PAPER_BUILD
 
-RUN curl -L "$(curl -L -s https://fill.papermc.io/v3/projects/paper/versions/${MC_VERSION}/builds/${PAPER_BUILD} | jq -r '.downloads."server:default".url')" -o /tmp/papermc.jar
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl ca-certificates jq \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY entrypoint.sh /opt/entrypoint.sh
-RUN chmod +x /opt/entrypoint.sh
+RUN curl -L "$(curl -L -s https://fill.papermc.io/v3/projects/paper/versions/${MINECRAFT_VERSION}/builds/${PAPER_BUILD} \
+    | jq -r '.downloads."server:default".url')" -o /tmp/papermc.jar
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
 EXPOSE 25565/tcp
 EXPOSE 24454/udp
 
-ENTRYPOINT ["/bin/bash", "-c", "/opt/entrypoint.sh"]
+ENTRYPOINT [ "/entrypoint.sh" ]

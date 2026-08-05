@@ -1,33 +1,50 @@
-# Minecraft PaperMC
+# Minecraft PaperMC Dedicated Server
 
-This repository contains images for creating PaperMC containers in different versions of Minecraft and PaperMC.
+Containerized setup for running a Minecraft PaperMC Dedicated Server using Podman, with persistent worlds and configurable settings.
 
-## Starting server
+## Starting
 
-```bash
-podman compose up -d
-```
-
-## Stopping server
+Copy the `.env.example` file and rename it to `.env`s:
 
 ```bash
-podman compsoe down
+cp .env.example .env
 ```
 
-## Updating image
-
-First, change the parameters of `compose.yml` to your desired Minecraft version and PaperMC build. To obtain the Minecraft versions and PaperMC builds, please refer to [this link](https://fill-ui.papermc.io/projects/paper).
-
-```yml
-build:
-  args:
-    MC_VERSION: 26.1.1
-    PAPER_BUILD: 29
-```
-
-Then, restart the server, forcing the image to rebuild.
+Then edit the values within this file according to your needs:
 
 ```bash
-podman compose down
-podman compose up -d --build --no-cache
+nano .env
+```
+
+Start the server using the command below; the first run takes longer because the image is being built:
+
+```bash
+podman-compose up -d --build
+```
+
+## Stopping Safely
+
+```bash
+podman-compose down
+```
+
+## Updating
+
+Rebuild the image after modifying the `.env` file. The volume containing the server save is preserved:
+
+```bash
+podman-compose up -d --build --no-cache
+```
+
+## Logs
+
+```bash
+# All services
+podman-compose logs
+
+# Follow in real time
+podman-compose logs -f
+
+# Last 50 lines only
+podman-compose logs --tail 50
 ```

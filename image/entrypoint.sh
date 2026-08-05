@@ -1,6 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-cd /srv/server
-cp -f /tmp/papermc.jar /srv/server/papermc.jar
-echo "eula=true" > eula.txt
-exec java -Xmx${JAVA_XMX} -Xms${JAVA_XMS} -XX:+AlwaysPreTouch -XX:+DisableExplicitGC -XX:+ParallelRefProcEnabled -XX:+PerfDisableSharedMem -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:G1HeapRegionSize=8M -XX:G1HeapWastePercent=5 -XX:G1MaxNewSizePercent=40 -XX:G1MixedGCCountTarget=4 -XX:G1MixedGCLiveThresholdPercent=90 -XX:G1NewSizePercent=30 -XX:G1RSetUpdatingPauseTimePercent=5 -XX:G1ReservePercent=20 -XX:InitiatingHeapOccupancyPercent=15 -XX:MaxGCPauseMillis=200 -XX:MaxTenuringThreshold=1 -XX:SurvivorRatio=32 -jar /srv/server/papermc.jar --nogui
+set -eo pipefail
+
+SERVER_PATH="/opt/Minecraft/servers/${SERVER_NAME}"
+
+if [ ! -d "$SERVER_PATH" ]; then
+    mkdir "$SERVER_PATH"
+fi
+
+cd "$SERVER_PATH"
+cp -f "/tmp/papermc.jar" "$SERVER_PATH/papermc.jar"
+echo "eula=true" >eula.txt
+exec java -Xmx${JVM_XMX} -Xms${JVM_XMS} ${JVM_ARGS} -jar "$SERVER_PATH/papermc.jar" --nogui

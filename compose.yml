@@ -1,16 +1,26 @@
 services:
   server:
+    container_name: ${SERVER_NAME:-papermc-server}
+    image: papermc:latest
     build:
       context: ./image
       args:
-        MC_VERSION: 26.1.1
-        PAPER_BUILD: 29
+        JAVA_VERSION: ${JAVA_VERSION:-25}
+        MINECRAFT_VERSION: ${MINECRAFT_VERSION:-26.2}
+        PAPER_BUILD: ${PAPER_BUILD:-92}
     environment:
-      JAVA_XMX: "4G"
-      JAVA_XMS: "2G"
+      SERVER_NAME: ${SERVER_NAME:-myserver}
+      JVM_XMX: ${JVM_XMX:-4096m}
+      JVM_XMS: ${JVM_XMS:-4096m}
+      JVM_ARGS: ${JVM_ARGS:-}
     ports:
-      - "25565:25565/tcp"
-      - "24454:24454/udp"
+      - "${SERVER_PORT:-25565}:25565/tcp"
+      - "${SERVER_VOIP_PORT:-24454}:24454/udp"
     volumes:
-      - ./data:/srv/server
+      - "papermc-data:/opt/Minecraft/servers"
     stdin_open: true
+    tty: true
+
+volumes:
+  papermc-data:
+    name: papermc-data

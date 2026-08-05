@@ -15,8 +15,9 @@ services:
       JVM_ARGS: ${JVM_ARGS:-}
     ports:
       - "${SERVER_PORT:-25565}:25565/tcp"
-      - "${SERVER_VOIP_PORT:-24454}:24454/udp"
+      - "${SERVER_QUERY_PORT:-25565}:25565/udp"
       - "${SERVER_RCON_PORT:-25575}:25575/tcp"
+      - "${SERVER_VOIP_PORT:-24454}:24454/udp"
     volumes:
       - "papermc-data:/opt/Minecraft/servers"
     stdin_open: true

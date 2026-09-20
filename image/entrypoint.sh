@@ -64,7 +64,7 @@ fi
 
 if [[ -n "${PRESET:-}" ]]; then
     ARGS+=(-preset)
-    ARGS+=("\"$PRESET\"")
+    ARGS+=("$PRESET")
 fi
 
 if [[ -n "${MODIFIERS:-}" ]]; then

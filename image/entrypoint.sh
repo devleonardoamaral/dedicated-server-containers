@@ -70,21 +70,27 @@ fi
 if [[ -n "${MODIFIERS:-}" ]]; then
     IFS=';' read -ra modifiers <<<"$MODIFIERS"
 
+    ARGS+=("-modifier")
+
     for m in "${modifiers[@]}"; do
-        [[ -n "$m" ]] && ARGS+=(-modifier "$m")
+        [[ -n "$m" ]] && ARGS+=("$m")
     done
 fi
 
 if [[ -n "${SETKEYS:-}" ]]; then
     IFS=';' read -ra keys <<<"$SETKEYS"
 
+    ARGS+=("-setkey")
+
     for k in "${keys[@]}"; do
-        [[ -n "$k" ]] && ARGS+=(-setkey "$k")
+        [[ -n "$k" ]] && ARGS+=("$k")
     done
 fi
 
 echo "Starting server. Press CTRL-C to exit"
-echo "Command: ./valheim_server.x86_64 ${ARGS[@]}"
+printf 'Command:'
+printf ' %q' ./valheim_server.x86_64 "${ARGS[@]}"
+printf '\n'
 
 # Tip: Make a local copy of this script to avoid it being overwritten by Steam.
 # NOTE: Minimum password length is 5 characters & password can't be in the server name.

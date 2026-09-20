@@ -70,10 +70,14 @@ fi
 if [[ -n "${MODIFIERS:-}" ]]; then
     IFS=';' read -ra modifiers <<<"$MODIFIERS"
 
-    ARGS+=("-modifier")
-
-    for m in "${modifiers[@]}"; do
-        [[ -n "$m" ]] && ARGS+=("$m")
+    i=0
+    while ((i + 1 < ${#modifiers[@]})); do
+        ARGS+=(
+            "-modifier"
+            "${modifiers[i]}"
+            "${modifiers[i + 1]}"
+        )
+        ((i += 2))
     done
 fi
 

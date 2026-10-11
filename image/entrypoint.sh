@@ -68,16 +68,19 @@ if [[ -n "${PRESET:-}" ]]; then
 fi
 
 if [[ -n "${MODIFIERS:-}" ]]; then
+    # Quebra por ponto e vírgula (Separa os blocos)
     IFS=';' read -ra modifiers <<<"$MODIFIERS"
 
     i=0
-    while ((i + 1 < ${#modifiers[@]})); do
+    while ((i < ${#modifiers[@]})); do
+        read -ra modifier_args <<<"${modifiers[i]}"
+        
         ARGS+=(
             "-modifier"
-            "${modifiers[i]}"
-            "${modifiers[i + 1]}"
+            "${modifier_args[0]}"
+            "${modifier_args[1]}"
         )
-        ((i += 2))
+        ((i += 1))
     done
 fi
 
